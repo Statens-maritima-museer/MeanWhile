@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="MeanWhile.LanguageSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="40" d:DesignWidth="40">
+    <Grid Width="40" Margin="2">
+        <TextBlock Background="white" Foreground="Black" Name="LangaugeText" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                   Visibility="Hidden"/>
+        <Image Name="FlagImage" Source="/Images/wiki.png" TouchDown="Image_TouchDown" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+        
+    </Grid>
+</UserControl>
