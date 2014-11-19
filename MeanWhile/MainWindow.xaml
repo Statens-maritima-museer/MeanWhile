@@ -1,0 +1,276 @@
+﻿<s:SurfaceWindow x:Class="MeanWhile.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="http://schemas.microsoft.com/surface/2008"
+    xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+    xmlns:uc="clr-namespace:MeanWhile.UserControls"
+    Title="MeanWhile"
+                 Foreground="White"
+                 FontSize="20"
+                 Width="1920"
+                 Height="1080"
+                 
+                Loaded="SurfaceWindow_Loaded"
+    >
+
+    <Window.Resources>
+        <ControlTemplate x:Key="CustomPushpinTemplate" TargetType="m:Pushpin" >
+            <Border BorderBrush="Blue" BorderThickness="2" Width="300">
+            <Grid x:Name="ContentGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Width="200" >
+                        <ContentPresenter HorizontalAlignment="Center"                         
+                                          VerticalAlignment="Center"                              
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Margin="0" TextBlock.FontFamily="Segoe UI" TextBlock.FontWeight="Bold" TextBlock.Foreground="#FFB8D30B">
+                            
+                        </ContentPresenter>
+                
+            </Grid>
+            </Border>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <Grid Name="BaseGrid">
+        <Grid Name="CategoryGrid" Opacity="1">
+            <Image Name="SpaceBackground" Source="/Images/space.png" TouchDown="SpaceBackground_TouchDown" Opacity="1"/>
+            
+            <uc:InformationButton x:Name="InfoButton" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50"/>
+            
+            
+            <TextBlock Name="DebugAngle" FontSize="30" Foreground="White" Text="Debug" VerticalAlignment="Top" HorizontalAlignment="Left"
+                       Visibility="Hidden"/>
+            <Image Name="Moon" Source="/Images/moon.png" Opacity="1" Width="550">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="MoonRotate" CenterX="275" CenterY="275"/>
+                </Image.RenderTransform>
+            </Image>
+            <Image Name="Earth" Source="/Images/earth.png" Opacity="1" Width="230">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="EartRotate" CenterX="115" CenterY="115"/>
+                </Image.RenderTransform>
+            </Image>
+            <Image Name="Cage" Source="/Images/globecage.png" Opacity="1" Width="430">
+                <Image.RenderTransform>
+                    <RotateTransform x:Name="CageRotate" CenterX="215" CenterY="215"/>
+                </Image.RenderTransform>
+            </Image>
+            
+            <Grid Width="1006" Height="997">
+                
+                <Grid.RenderTransform>
+                    <RotateTransform x:Name="SpinRotate" Angle="20" CenterX="503" CenterY="500"/>
+                </Grid.RenderTransform>
+                
+                <Image Name="Spin" Source="/Images/snurra.png" Opacity="1" Width="1006"/>
+                <Image Name="SpinButtons" Source="/Images/snurrknappar.png" Opacity="1" Width="1006"/>
+
+                <Rectangle Name="SpinTouchRectangle" Fill="Transparent" Opacity=".5" TouchDown="Rectangle_TouchDown" TouchMove="Rectangle_TouchMove" TouchLeave="Rectangle_TouchLeave">
+                    <Rectangle.Clip>
+                        <GeometryGroup FillRule="Nonzero">
+                            <EllipseGeometry Center="105,805" RadiusX="30" RadiusY="35"/>
+                            <EllipseGeometry Center="135,845" RadiusX="35" RadiusY="35"/>
+                            <EllipseGeometry Center="175,875" RadiusX="30" RadiusY="30"/>
+
+                            <EllipseGeometry Center="845,135" RadiusX="30" RadiusY="35"/>
+                            <EllipseGeometry Center="880,165" RadiusX="30" RadiusY="35"/>
+                            <EllipseGeometry Center="915,205" RadiusX="30" RadiusY="35"/>
+                            <!--<EllipseGeometry Center="500,500" RadiusX="350" RadiusY="350"/>
+                            <EllipseGeometry Center="500,500" RadiusX="500" RadiusY="500"/>-->
+                        </GeometryGroup>
+                    </Rectangle.Clip>
+                </Rectangle>
+                <Canvas Name="Canvas0Degrees"  Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="0" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" 
+                                    VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="0"/>
+                </Canvas>
+                <Canvas Name="Canvas45Degrees" Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="45" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="1"/>
+                </Canvas>
+                <Canvas Name="Canvas90Degrees" Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="90" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="2"/>
+                </Canvas>
+                <Canvas Name="Canvas135Degrees" Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="135" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="3"/>
+                </Canvas>
+
+                <Canvas Name="Canvas180Degrees" Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="180" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="4"/>
+                </Canvas>
+                <Canvas Name="Canvas225Degrees" Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="225" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="5"/>
+                </Canvas>
+                <Canvas Name="Canvas270Degrees" Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="270" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="6"/>
+                </Canvas>
+                <Canvas Width="120" Height="500" VerticalAlignment="Top" Margin="0,0,0,0">
+                    <Canvas.RenderTransform>
+                        <RotateTransform Angle="315" CenterX="60" CenterY="500" />
+                    </Canvas.RenderTransform>
+                    <uc:ButtonCover OnClick="ButtonCover_OnClick" VerticalAlignment="Top" HorizontalAlignment="Center" Width="120" Margin="0,55,0,0"
+                                    Tag="7"/>
+                </Canvas>
+            </Grid>
+            
+            <Canvas Name="CardCanvas" VerticalAlignment="Top"/>
+
+        </Grid>
+        <Grid Name="MapGrid" Visibility="Hidden">
+        <Grid.RenderTransform>
+            <ScaleTransform x:Name="MapGridScale" CenterX="960" CenterY="540"/>
+        </Grid.RenderTransform>
+        <Grid.Clip>
+            <RectangleGeometry Rect="0,0,1920,1080"/>
+        </Grid.Clip>
+        <m:Map Name="WorldMap" ZoomLevel="2.65" Center="31.5,0.5" SupportedManipulations="Translate,Scale" 
+               ViewChangeOnFrame="WorldMap_ViewChangeOnFrame"
+               TouchMove="WorldMap_TouchMove"
+               TouchDown="WorldMap_TouchDown"
+               TouchUp="WorldMap_TouchUp"
+               
+               CredentialsProvider="Ak86MMZvxoYsmAEDmfUJKoC7yQbhzuAlAqHkIFnANTeZkRxgRtC7iVRN-G94VztQ"
+               
+               Mode="Aerial" ScaleVisibility="Hidden">
+           
+                <!--Width="1600" HorizontalAlignment="Left">-->
+                <m:MapLayer Name="PinMapLayer3" />
+                <m:MapLayer Name="PinMapLayer2" />
+                <m:MapLayer Name="PinMapLayer1" />
+                <m:MapLayer Name="OldMapLayer" >
+                    <Image Source="/Images/karta_FINAL5_Sliced.png" m:MapLayer.PositionRectangle="-90,-180,90,180"/>
+                    <Image Name="Cloud1" Source="/Images/molnSmall.png" Visibility="Hidden"/>
+                    <Image Name="Cloud2" Source="/Images/molnSmall.png" Visibility="Hidden"/>
+                    <Image Name="Cloud3" Source="/Images/molnSmall.png" Visibility="Hidden"/>
+                    <Image Name="Cloud" Source="/Images/molnSmall.png"                           
+                           m:MapLayer.PositionRectangle="75,-140,45,-110"                           
+                           Visibility="Hidden"
+                           >
+                        <!--<Image.RenderTransform>
+                            <RotateTransform x:Name="CloudAngle" CenterX="960" CenterY="540"/>
+                        </Image.RenderTransform>-->
+                    </Image>
+                </m:MapLayer>
+
+        </m:Map>
+
+        <Image Name="LeftMapImage" Source="/Images/karta_final5_Left.png" Height="1108" 
+               Visibility="Visible" VerticalAlignment="top" HorizontalAlignment="Left" Margin="-27,-24,0,0" />
+        <Image Name="RightMapImage" Source="/Images/karta_final5_Right.png" Height="1108" 
+               Visibility="Visible" VerticalAlignment="top" HorizontalAlignment="Right"  Margin="0,-25,-13,0" />
+
+        <Image Name="OldMapImage" Source="/Images/Ram_FINAL_V1.png" Visibility="Visible" Width="1920" Height="1080" VerticalAlignment="top" HorizontalAlignment="Left" >
+            <Image.Clip>
+                <GeometryGroup FillRule="EvenOdd">
+                        <RectangleGeometry Rect="0,0,1920,1080"/>
+                        <RectangleGeometry Rect="88,88,1745,905" x:Name="ClipRegion"/>
+                </GeometryGroup>
+            </Image.Clip>
+        </Image>
+
+            <uc:InformationButton VerticalAlignment="Top" HorizontalAlignment="Left" Margin="70" 
+                                  OnClick="InformationButton_OnClick"/>
+
+            <uc:WikipediaButton VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="70" 
+                                  OnClick="WikipediaButton_OnClick"/>
+
+            <Canvas VerticalAlignment="Top" HorizontalAlignment="Left" Margin="129,80,0,0" Visibility="Hidden">
+                <Canvas.Clip>
+                    <RectangleGeometry Rect="0,-10,400,1080"/>
+                </Canvas.Clip>
+            <Grid Name="BookmarkGrid" Canvas.Top="-788" Canvas.Left="0">
+                
+                <Image Source="/Images/MapBookmark_Bottom.png" VerticalAlignment="Top" HorizontalAlignment="Left" Width="348"/>
+                <StackPanel Margin="0,200,0,0">
+                        <Image Source="/Images/wiki.png" Width="80" />
+                        <TextBlock Text="Alla artiklar är från Wikipedia." HorizontalAlignment="Center" Width="300" TextWrapping="Wrap"/>
+                        <Image Source="/Images/wiki 2.png" Width="50" />
+                        <Image Source="/Images/Aa.png" Width="45" />
+
+                        <Image Source="/Images/kartplupp.png" Width="25" />
+                        <TextBlock Text="Artiklar valda av Vasamuséet." HorizontalAlignment="Center" Width="300" TextWrapping="Wrap"/>
+                    
+                        <Image Source="/Images/KartPlupp 2 (0-00-00-00).png" Width="25" />
+                        <TextBlock Text="Artiklar valda för att de handlar om 1600-1649 och har en GPS-position." HorizontalAlignment="Center" Width="300" TextWrapping="Wrap"/>
+
+                        <TextBlock Text="Programmet är skapat av Spree och grafiken av Green Curry" HorizontalAlignment="Center" Width="300" TextWrapping="Wrap"
+                                   Margin="0,160,0,0"/>
+
+                    </StackPanel>
+                    <Rectangle Name="BookmarkHandle" Fill="Transparent" VerticalAlignment="Bottom" Height="100" TouchDown="BookmarkHandle_TouchDown">
+                        <Rectangle.Clip>
+                            <PathGeometry>
+                                <PathFigure StartPoint="0,0">
+                                    <LineSegment Point="348,0"/>
+                                    <LineSegment Point="174,100"/>
+                                    
+                                </PathFigure>
+                                
+                            </PathGeometry>
+                        </Rectangle.Clip>
+                    </Rectangle>
+                </Grid>
+            </Canvas>
+            <Image Source="/Images/MapBookmark_Top.png" VerticalAlignment="Top" HorizontalAlignment="Left" Width="362" Margin="115,0,0,0"
+                   Visibility="Hidden"/>
+
+            <Canvas Name="InfoCardLayer" />
+
+            
+            
+        <Border Name="QRCodePanel" Background="White" BorderBrush="Red" BorderThickness="2" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Hidden">
+            <Image Name="QRImage" Width="300" Height="300"  />
+        </Border>
+        <StackPanel Name="SearchPanel" Background="LightBlue" VerticalAlignment="Top" HorizontalAlignment="Right" Visibility="Collapsed">
+                <s:SurfaceCheckBox Name="OldMapCheckBox" Content="Gammal karta" Click="CheckBox_Click" Visibility="Collapsed"/>
+                <s:SurfaceCheckBox Name="BingMapCheckBox" Content="Bing" IsChecked="True" Click="CheckBox_Click" Visibility="Collapsed"/>
+            <!--<s:SurfaceCheckBox Name="QRCodesCheckBox" Content="QR-kod" Click="CheckBox_Click"/>-->
+            
+            <!--<s:SurfaceButton Name="PinButton"  Content="Pin" Click="PinButton_Click" />-->
+                <s:SurfaceButton Name="SearchButton" Content="Sök" Click="SurfaceButton_Click" Visibility="Collapsed"/>
+                <TextBlock Name="SearchThreadCount" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultCount" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultCategories" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultPinsSv" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultPinsEn" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultPinsEs" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultPinsFr" Text="_" FontSize="20"/>
+                <TextBlock Name="SearchResultTime" Text="_" FontSize="20"/>
+            <s:SurfaceButton Name="SaveButton" Content="Spara" Click="SaveButton_Click" Visibility="Collapsed"/>
+
+            <s:SurfaceListBox Name="SearchResult" MaxHeight="800"/>
+                <s:SurfaceButton Content="Close" Click="CloseResult_Click" />
+
+
+            </StackPanel>
+       
+        
+    </Grid>
+    </Grid>
+</s:SurfaceWindow>
